@@ -15,9 +15,12 @@ class StatusType(str, Enum):
     refund = "refund"
 
 
-class Transactions(BaseModel):
-    id: Optional[UUID] = uuid4()
+class TransactionsUpdate(BaseModel):
     user_id: UUID
     transaction_type: TransactionType
     amount: float
     status: StatusType
+
+
+class Transactions(TransactionsUpdate):
+    id: Optional[UUID]
