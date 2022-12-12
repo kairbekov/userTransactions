@@ -4,8 +4,11 @@ from uuid import uuid4, UUID
 from pydantic import BaseModel
 
 
-class User(BaseModel):
-    id: Optional[UUID] = uuid4
+class UserUpdate(BaseModel):
     name: str
     surname: str
     balance: float
+
+
+class User(UserUpdate):
+    id: Optional[UUID]

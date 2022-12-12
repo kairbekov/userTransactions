@@ -1,14 +1,10 @@
+from uuid import uuid4
+
+import databases
 import loguru
 import sqlalchemy
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text, Float
-from sqlalchemy.orm import relationship
-
-from ..core.database import Base
-from ..schemas import users as user_schema
 from ..core.db import metadata
-from ..core import db
-from databases import Database
-
+from ..schemas import users
 
 User = sqlalchemy.Table(
     'users',
@@ -36,27 +32,41 @@ User = sqlalchemy.Table(
 )
 
 
-# def get_user(db: Session, user_id: int):
-#     return db.query(User).filter(User.id == user_id).first()
-#
-#
-# def get_user_by_email(db: Session, email: str):
-#     return db.query(User).filter(User.email == email).first()
+async def get_user(db: databases.Database, user_id: str):
+    query = User.select().where(User.c.id == user_id)
+    res = await db.fetch_one(query)
+    return res
 
 
-async def get_users(db):
-    loguru.logger.debug(f'ABL {db}')
-    res = await db.fetch_all(f'''select * from users''')
-    # res = dict(res)
-    loguru.logger.debug(f'ABL {res}')
-    # res = [dict(item) for item in res]
+async def get_users(db: databases.Database):
+    query = User.select()
+    res = await db.fetch_all(query)
     return {'res': res}
-    # return db.query(User).offset(skip).limit(limit).all()
 
 
-# def create_user(db: Session, user: user_schema.UserCreate):
-#     db_user = User(email=user.email, hashed_password=fake_hashed_password)
-#     db.add(db_user)
-#     db.commit()
-#     db.refresh(db_user)
-#     return db_user
+async def create_user(db: databases.Database, user: users.User):
+    user.id = str(uuid4())
+    user = dict(user)
+    query = User.insert().values(**user).returning(User.c.id)
+    res = await db.execute(query)
+    return res
+
+
+async def update_user(db: databases.Database, user_id: str, data: users.UserUpdate):
+    data = dict(data)
+    query = User.update().where(User.c.id == user_id).values(**data).returning(User.c.id)
+    res = await db.fetch_one(query)
+    return res
+
+
+async def delete_user(db: databases.Database, user_id: str):
+    query = User.delete().where(User.c.id == user_id).returning(User.c.id)
+    res = await db.fetch_one(query)
+    return res
+
+
+async def get_user_balance(db: databases.Database, user_id: str):
+    # query = User.select(User.columns.balance).where(User.c.id == user_id)
+    query = 'Select u.balance from users u where u.id = :user_id'
+    res = await db.fetch_one(query, {'user_id': user_id})
+    return res
