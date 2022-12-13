@@ -10,7 +10,7 @@ metadata = sqlalchemy.MetaData()
 _SESSION: typing.Optional[databases.Database] = None
 
 # URL = 'sqlite+aiosqlite:///./example.db'
-URL = 'postgresql+asyncpg://user_app:user_app@localhost:5432/user_app'
+URL = 'postgresql+asyncpg://user_app:user_app@db:5432/user_app'
 
 
 class SessionNotInitializedError:

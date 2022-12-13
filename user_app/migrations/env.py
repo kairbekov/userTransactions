@@ -12,7 +12,7 @@ from alembic import context
 config = context.config
 config.set_main_option(
     'sqlalchemy.url',
-    f'postgresql://user_app:user_app@localhost:5432/user_app',
+    f'postgresql://user_app:user_app@db:5432/user_app',
 )
 
 # Interpret the config file for Python logging.
