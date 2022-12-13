@@ -13,6 +13,10 @@ cd userTransactions/
 ```console
 docker-compose up -d --build
 ```
+4. Swager: open in browser
+```console
+http://0.0.0.0:8000/api/docs#/
+```
 
 TODO: 
 1. add more exceptions
