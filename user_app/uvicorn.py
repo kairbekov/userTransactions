@@ -4,7 +4,7 @@ import uvicorn
 def run():
     uvicorn.run(
         "user_app:app",
-        host='localhost',
+        host='0.0.0.0',
         port=8000,
         loop="none",
         access_log=True,

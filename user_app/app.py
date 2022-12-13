@@ -12,7 +12,7 @@ def create_app():
         return _app
 
     _app = fastapi.FastAPI(
-        name='Traffic Analysing',
+        name='user transactions',
         docs_url='/api/docs',
         redoc_url='/api/redoc',
         openapi_url='/api/openapi.json',

@@ -1,7 +1,6 @@
 import databases
-import loguru
 from fastapi import APIRouter, Depends
-from ..dependecies import get_db, get_session
+from ..dependecies import get_session
 from .. import models, schemas
 
 router = APIRouter()
