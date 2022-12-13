@@ -13,3 +13,8 @@ How to start docker container
 2. cd userTransactions
 3. docker build -t user_app .
 4. docker run -d --publish 8000:8000 --name test_app_container user_app
+
+TODO: 
+1. separate db
+2. docker compose
+3. add exceptions
