@@ -1,8 +1,9 @@
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 
+from .core import conf, db
 from .endpoints import router
-from .core import db
+
 _app = None
 
 
@@ -13,6 +14,7 @@ def create_app():
 
     _app = fastapi.FastAPI(
         name='user transactions',
+        debug=conf.conf.debug,
         docs_url='/api/docs',
         redoc_url='/api/redoc',
         openapi_url='/api/openapi.json',

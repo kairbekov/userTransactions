@@ -1,16 +1,14 @@
 import typing
 
 import databases
-import loguru
 import sqlalchemy
-
+from . import conf
 
 metadata = sqlalchemy.MetaData()
 
 _SESSION: typing.Optional[databases.Database] = None
 
-# URL = 'sqlite+aiosqlite:///./example.db'
-URL = 'postgresql+asyncpg://user_app:user_app@db:5432/user_app'
+URL = conf.conf.postgres_url
 
 
 class SessionNotInitializedError:
