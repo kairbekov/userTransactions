@@ -1,3 +1,5 @@
+import datetime
+import typing
 from enum import Enum
 from typing import Optional
 from uuid import uuid4, UUID
@@ -10,17 +12,19 @@ class TransactionType(str, Enum):
 
 
 class StatusType(str, Enum):
+    waiting = "waiting"
     confirmed = "confirmed"
     declined = "declined"
     refund = "refund"
 
 
 class TransactionsUpdate(BaseModel):
-    user_id: UUID
-    transaction_type: TransactionType
-    amount: float
-    status: StatusType
+    user_id: typing.Optional[UUID]
+    transaction_type: typing.Optional[TransactionType]
+    amount: typing.Optional[float]
+    status: typing.Optional[StatusType]
 
 
-class Transactions(TransactionsUpdate):
+class TransactionsGet(TransactionsUpdate):
     id: Optional[UUID]
+    created_date: datetime.datetime
